@@ -17,7 +17,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/addData"
         android:text="添加数据"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/xianshi"
+        android:text="xianshi"/>
     <ListView
+        android:id="@+id/ListView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

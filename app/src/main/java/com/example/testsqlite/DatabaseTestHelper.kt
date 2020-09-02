@@ -8,8 +8,8 @@ import android.widget.Toast
 class DatabaseTestHelper(val context: Context, name: String, version: Int) : SQLiteOpenHelper(context, name, null, version) {
     private val creatBook = "create table book(" +
             "id integer primary key autoincrement," +
-            "ecuID text," +
-//            "ecuID2 text," +
+            "name text," +
+            "ecuID2 text," +
             "longString text," +
             "reservedID text," +
             "reservedID2 text)"
@@ -19,6 +19,11 @@ class DatabaseTestHelper(val context: Context, name: String, version: Int) : SQL
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
+        if (p1 <= 1){
 
+        }
+        if (p1 <= 2) {
+
+        }
     }
 }

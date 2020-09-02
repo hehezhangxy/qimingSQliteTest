@@ -8,15 +8,21 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
 
-class ListAdapter(activity: Activity, val resourseID: Int, data: List<String>) : ArrayAdapter<String>(activity, resourseID, data) {
+class ListAdapter(activity: Activity, val resourseID: Int, data: List<set>) : ArrayAdapter<set>(
+    activity,
+    resourseID,
+    data
+) {
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+
         val view: View
         val viewHolder: ViewHolder
         if (convertView == null) {
             view = LayoutInflater.from(context).inflate(resourseID, parent, false)
-            val ecuname: TextView = view.findViewById(R.id.item)
+            val name: TextView = view.findViewById(R.id.item)
             val btn: Button = view.findViewById(R.id.delete)
-            viewHolder = ViewHolder(ecuname, btn)
+            viewHolder = ViewHolder(name, btn)
             view.tag = viewHolder
         } else {
             view = convertView
@@ -24,16 +30,25 @@ class ListAdapter(activity: Activity, val resourseID: Int, data: List<String>) :
         }
 
 
-        val ecu = getItem(position)
-        if (ecu != null){
-           viewHolder.ecuname.text = ecu
+        val listItem = getItem(position)
+        if (listItem != null){
+           viewHolder.name.text = listItem.name + listItem.longString
             viewHolder.btn.setOnClickListener {
-                val dbHelper = DatabaseTestHelper(context, "Book", 1)
+                val dbHelper = DatabaseTestHelper(context, "testDB.db", 1)
                 val db = dbHelper.writableDatabase
-                db.delete("Book", "ecuIDecuID = ?", arrayOf("$ecu"))
+                db.execSQL("delete from Book where id = ?", arrayOf(listItem.id))
+                checked.setonClick()
             }
         }
         return view
     }
-    inner class ViewHolder(val ecuname: TextView, val btn: Button)
+    interface OnClick {
+        fun setonClick()
+    }
+    private lateinit var checked: OnClick
+
+    fun setClick(onClick: OnClick) {
+        this.checked = onClick
+    }
+    inner class ViewHolder(val name: TextView, val btn: Button)
 }
